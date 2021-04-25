@@ -1,0 +1,28 @@
+module display_5(
+);
+parameter _0 = 7'b100_0000, 
+          _1 = 7'b111_1001, 
+			 _2 = 7'b010_0100,
+			 _3 = 7'b011_0000,
+			 _4 = 7'b001_1001,
+			 _5 = 7'b001_0010,
+			 _6 = 7'b000_0010,
+			 _7 = 7'b111_1000,
+			 _8 = 7'b000_0000,
+			 _9 = 7'b001_0000;
+always@(*)begin
+  case(count)
+    4'd0: letter = _0;
+    4'd1: letter = _1;
+    4'd2: letter = _2;
+    4'd3: letter = _3;
+    4'd4: letter = _4;
+    4'd5: letter = _5;
+    4'd6: letter = _6;
+    4'd7: letter = _7;
+    4'd8: letter = _8;
+    4'd9: letter = _9;
+    default: letter = _none;
+  endcase
+end
+endmodule

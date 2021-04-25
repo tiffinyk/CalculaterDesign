@@ -1,0 +1,31 @@
+module substractor_8bits(clk,rst_n,sub_sign,sub1,sub2,sub,borrow_out);
+input clk,rst_n,sub_sign;
+input [7:0] sub1;
+input [7:0] sub2;
+output reg [7:0] sub;
+output reg borrow_out;
+
+reg sign_num;
+
+always @(negedge rst_n or negedge sub_sign)
+ begin
+  if(!rst_n)
+   sign_num<=0;
+  else
+   sign_num=sign_num+1;
+ end
+ 
+ 
+always @(posedge clk or negedge rst_n or posedge sign_num)
+ begin 
+  if(!rst_n)
+   {borrow_out,sub}<=0;
+  else if(sign_num)
+   begin
+	 if(sub1>=sub2)
+	  {borrow_out,sub}={1'b0,sub1-sub2};
+	 else
+	  {borrow_out,sub}={1'b1,sub2-sub1};
+	 end
+ end
+endmodule

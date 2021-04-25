@@ -1,0 +1,52 @@
+module div8(
+        input clk,rst_n,
+        input start,
+        input [7:0] a, 
+        input [7:0] b,
+        output done,
+        output [7:0] yshang,
+        output [7:0] yyushu
+        ); 
+reg[15:0] temp_a;
+reg[15:0] temp_b;
+reg[3:0] i;
+reg done_r;
+//------------------------------------------------
+always @(posedge clk or negedge rst_n)begin
+    if(!rst_n) i <= 4'd0;
+    else if(start && i < 4'd9) i <= i+1'b1; 
+    else i <= 4'd0;
+end
+//------------------------------------------------
+//always @(posedge clk or negedge rst_n)
+//    if(!rst_n) done_r <= 1'b0;
+always @(posedge clk or posedge rst_n)
+    if(rst_n) done_r <= 1'b0;
+    else if(i == 4'd8) done_r <= 1'b1;        
+    else if(i == 4'd9) done_r <= 1'b0;        
+assign done = done_r;
+//------------------------------------------------
+//always @ (posedge clk or negedge rst_n)begin
+//    if(!rst_n) begin
+always @ (posedge clk or posedge rst_n)begin
+    if(rst_n) begin
+        temp_a <= 16’h0;
+        temp_b <= 16’h0;
+    end
+    else if(start) begin
+        if(i == 4'd0) begin
+            temp_a = {8'h00,tempa};
+            temp_b = {tempb,8'h00}; 
+        end
+        else begin
+            temp_a = temp_a << 1;
+          if(temp_a >= temp_b) 
+			   temp_a = temp_a - temp_b + 1'b1;
+          else temp_a = temp_a;
+        end
+    end
+end
+ 
+assign yshang = temp_a[7:0];
+assign yyushu = temp_a[15:8];
+endmodule
